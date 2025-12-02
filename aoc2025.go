@@ -285,6 +285,11 @@ func (ctx *problemContext) readAll() []byte {
 	return b
 }
 
+func (ctx *problemContext) splitInput(sep string) iter.Seq[string] {
+	input := strings.TrimSpace(string(ctx.readAll()))
+	return strings.SplitSeq(input, sep)
+}
+
 func scanSlice[E any](ctx *problemContext, parse func(string) E) []E {
 	var vs []E
 	scanner := ctx.scanner()
