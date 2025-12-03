@@ -259,22 +259,26 @@ func (ctx *problemContext) scanner() scanner {
 	return newScanner(ctx.f)
 }
 
-func (ctx *problemContext) int64s() []int64 {
-	var ns []int64
+func (ctx *problemContext) int64s() iter.Seq[int64] {
 	s := ctx.scanner()
-	for s.scan() {
-		ns = append(ns, s.int64())
+	return func(yield func(int64) bool) {
+		for s.scan() {
+			if !yield(s.int64()) {
+				return
+			}
+		}
 	}
-	return ns
 }
 
-func (ctx *problemContext) lines() []string {
-	var lines []string
+func (ctx *problemContext) lines() iter.Seq[string] {
 	s := ctx.scanner()
-	for s.scan() {
-		lines = append(lines, s.text())
+	return func(yield func(string) bool) {
+		for s.scan() {
+			if !yield(s.text()) {
+				return
+			}
+		}
 	}
-	return lines
 }
 
 func (ctx *problemContext) readAll() []byte {

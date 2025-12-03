@@ -11,9 +11,7 @@ func problem1(ctx *problemContext) {
 	}
 
 	var insts []dialInst
-	s := ctx.scanner()
-	for s.scan() {
-		line := s.text()
+	for line := range ctx.lines() {
 		inst := dialInst{
 			right: line[0] == 'R',
 			n:     int(parseInt(line[1:])),
