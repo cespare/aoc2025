@@ -289,6 +289,15 @@ func (ctx *problemContext) readAll() []byte {
 	return b
 }
 
+func (ctx *problemContext) byteGrid() *grid[byte] {
+	s := ctx.scanner()
+	var g grid[byte]
+	for s.scan() {
+		g.addRow(slices.Clone(s.s.Bytes()))
+	}
+	return &g
+}
+
 func (ctx *problemContext) splitInput(sep string) iter.Seq[string] {
 	input := strings.TrimSpace(string(ctx.readAll()))
 	return strings.SplitSeq(input, sep)
@@ -598,6 +607,14 @@ func (g *grid[E]) addRow(row []E) {
 	}
 	g.g = append(g.g, row)
 	g.rows++
+}
+
+func (g *grid[E]) window(v0, v1 vec2) *grid[E] {
+	var w grid[E]
+	for y := v0.y; y < v1.y; y++ {
+		w.addRow(slices.Clone(g.g[y][v0.x:v1.x]))
+	}
+	return &w
 }
 
 func (g *grid[E]) contains(v vec2) bool {

@@ -7,32 +7,25 @@ func init() {
 }
 
 func problem4(ctx *problemContext) {
-	var r paperRoom
-	for line := range ctx.lines() {
-		r.g.addRow([]byte(line))
-	}
+	g := ctx.byteGrid()
 	ctx.reportLoad()
 
-	ctx.reportPart1(r.part1())
-	ctx.reportPart2(r.part2())
+	ctx.reportPart1(paperRoomPart1(g))
+	ctx.reportPart2(paperRoomPart2(g))
 }
 
-type paperRoom struct {
-	g grid[byte]
-}
-
-func (r *paperRoom) part1() int {
+func paperRoomPart1(g *grid[byte]) int {
 	var canRemove int
-	for v, c := range r.g.all() {
+	for v, c := range g.all() {
 		if c != '@' {
 			continue
 		}
 		var adj int
 		for _, n := range v.neighbors8() {
-			if !r.g.contains(n) {
+			if !g.contains(n) {
 				continue
 			}
-			if r.g.at(n) == '@' {
+			if g.at(n) == '@' {
 				adj++
 			}
 		}
@@ -43,10 +36,10 @@ func (r *paperRoom) part1() int {
 	return canRemove
 }
 
-func (r *paperRoom) part2() int {
+func paperRoomPart2(g *grid[byte]) int {
 	var removed int
 	var q set.Set[vec2]
-	for v, c := range r.g.all() {
+	for v, c := range g.all() {
 		if c == '@' {
 			q.Add(v)
 		}
@@ -54,19 +47,19 @@ func (r *paperRoom) part2() int {
 outer:
 	for q.Len() > 0 {
 		v := popSet(&q)
-		if r.g.at(v) != '@' {
+		if g.at(v) != '@' {
 			continue
 		}
 		neighbors := make([]vec2, 0, 3)
 		for _, n := range v.neighbors8() {
-			if r.g.contains(n) && r.g.at(n) == '@' {
+			if g.contains(n) && g.at(n) == '@' {
 				if len(neighbors) == 3 {
 					continue outer
 				}
 				neighbors = append(neighbors, n)
 			}
 		}
-		r.g.set(v, 'x')
+		g.set(v, 'x')
 		removed++
 		q.Add(neighbors...)
 	}
