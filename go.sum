@@ -12,3 +12,5 @@ golang.org/x/exp v0.0.0-20241108190413-2d47ceb2692f h1:XdNn9LlyWAhLVp6P/i8QYBW+h
 golang.org/x/exp v0.0.0-20241108190413-2d47ceb2692f/go.mod h1:D5SMRVC3C2/4+F/DB1wZsLRnSNimn2Sp/NPsCrsv8ak=
 rsc.io/omap v1.2.0 h1:c1M8jchnHbzmJALzGLclfH3xDWXrPxSUHXzH5C+8Kdw=
 rsc.io/omap v1.2.0/go.mod h1:C8pkI0AWexHopQtZX+qiUeJGzvc8HkdgnsWK4/mAa00=
+rsc.io/top v1.0.2 h1:UEfowYYaJj6zF6Qv7CKOnsUCyxhSopoR1Uoi/HwfLn4=
+rsc.io/top v1.0.2/go.mod h1:/eug4tP/rUnl5Dox3aSZgdLKwMPAtWhJGE/eFY/2fNc=

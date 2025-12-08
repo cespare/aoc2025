@@ -7,6 +7,7 @@ require (
 	github.com/kr/pretty v0.3.1
 	golang.org/x/exp v0.0.0-20241108190413-2d47ceb2692f
 	rsc.io/omap v1.2.0
+	rsc.io/top v1.0.2
 )
 
 require (
