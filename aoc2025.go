@@ -390,6 +390,14 @@ func (v vec2) inv() vec2 {
 	return vec2{-v.x, -v.y}
 }
 
+func (v vec2) min(v1 vec2) vec2 {
+	return vec2{min(v.x, v1.x), min(v.y, v1.y)}
+}
+
+func (v vec2) max(v1 vec2) vec2 {
+	return vec2{max(v.x, v1.x), max(v.y, v1.y)}
+}
+
 var (
 	north = vec2{0, -1}
 	east  = vec2{1, 0}
@@ -424,6 +432,37 @@ func (v vec2) neighbors8() []vec2 {
 		neighbors[i] = v.add(d)
 	}
 	return neighbors
+}
+
+type rect struct {
+	v0 vec2 // top left
+	v1 vec2 // bottom right
+}
+
+func makeRect(v0, v1 vec2) rect {
+	return rect{
+		v0.min(v1),
+		v0.max(v1),
+	}
+}
+
+func (r rect) contains(v vec2) bool {
+	return v.x >= r.v0.x &&
+		v.y >= r.v0.y &&
+		v.x < r.v1.x &&
+		v.y < r.v1.y
+}
+
+func (r rect) all() iter.Seq[vec2] {
+	return func(yield func(v vec2) bool) {
+		for y := r.v0.y; y < r.v1.y; y++ {
+			for x := r.v0.x; x <= r.v1.x; x++ {
+				if !yield(vec2{x, y}) {
+					return
+				}
+			}
+		}
+	}
 }
 
 type mat2 struct {
